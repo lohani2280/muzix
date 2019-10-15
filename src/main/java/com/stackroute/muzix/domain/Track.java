@@ -1,5 +1,6 @@
 package com.stackroute.muzix.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,10 @@ import javax.persistence.Id;
 public class Track {
     @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(value = "ID of each track")
     private int trackID;
+    @ApiModelProperty(value = "Name of each track")
     private String trackName;
+    @ApiModelProperty(value = "Comments for each track")
     private String comments;
 }
