@@ -46,4 +46,13 @@ public class TrackServiceImpl implements TrackService {
         trackRepository.deleteAll();
         return true;
     }
+
+    @Override
+    public List<Track> getTrackByName(String trackName)
+    {
+        List<Track>list=trackRepository.findByName(trackName);
+        return list;
+    }
+
+
 }
