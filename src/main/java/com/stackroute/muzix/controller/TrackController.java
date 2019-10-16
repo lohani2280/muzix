@@ -25,14 +25,8 @@ public class TrackController {
     @ApiOperation(value = "Saves track in database")
     @RequestMapping(value = "/track", method = RequestMethod.POST)
     public ResponseEntity<?> saveTrack(@RequestBody Track track) throws TrackAlreadyExistsException{
-        ResponseEntity responseEntity;
-        try {
-            trackService.saveTrack(track);
-            responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.CREATED);
-        } catch (TrackAlreadyExistsException ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-            ex.printStackTrace();
-        }
+        trackService.saveTrack(track);
+        ResponseEntity responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.CREATED);
         return responseEntity;
     }
 
@@ -44,53 +38,34 @@ public class TrackController {
 
     @ApiOperation(value = "Update comment of a track")
     @PutMapping(value = "/track/update/{id}/{comment}")
-    public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) {
-        ResponseEntity responseEntity;
-        try {
-            trackService.updateTrack(id, comment);
-            responseEntity = new ResponseEntity<String>("Updated Successfully", HttpStatus.CREATED);
-        } catch (TrackNotFoundException ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<?> updateTrack(@PathVariable int id, @PathVariable String comment) throws TrackNotFoundException{
+        trackService.updateTrack(id, comment);
+        ResponseEntity responseEntity = new ResponseEntity<String>("Updated Successfully", HttpStatus.CREATED);
         return responseEntity;
     }
 
     @ApiOperation(value = "Deletes a track from database")
     @DeleteMapping(value = "/track/delete/{id}")
-    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) {
-        ResponseEntity responseEntity;
-        try{
-            trackService.deleteTrack(id);
-            responseEntity = new ResponseEntity("Deleted Successfully", HttpStatus.OK);
-        } catch (Exception ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<?> deleteTrack(@PathVariable Integer id) throws Exception{
+        trackService.deleteTrack(id);
+        ResponseEntity responseEntity = new ResponseEntity("Deleted Successfully", HttpStatus.OK);
         return responseEntity;
     }
 
     /* Delete given  resource  */
     @ApiOperation(value = "Finds all the tracks with given name")
     @DeleteMapping("/track")
-    public ResponseEntity<?> deleteUser() {
-        ResponseEntity responseEntity;
-        try {
-            trackService.deleteAllTracks();
-            responseEntity = new ResponseEntity<String>("successfully deleted", HttpStatus.OK);
-            return responseEntity;
-        }
-        catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<?> deleteUser() throws Exception{
+        trackService.deleteAllTracks();
+        ResponseEntity responseEntity = new ResponseEntity<String>("successfully deleted", HttpStatus.OK);
+        return responseEntity;
+
     }
 
     @ApiOperation(value = "Finds all the tracks with given name")
     @GetMapping("track/find/{trackName}")
-    public ResponseEntity<?> getTrackByName( @PathVariable String trackName) {
-        try {
-            return new ResponseEntity<List<Track>>(trackService.getTrackByName(trackName), HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<?> getTrackByName( @PathVariable String trackName) throws Exception{
+        return new ResponseEntity<List<Track>>(trackService.getTrackByName(trackName), HttpStatus.OK);
+
     }
 }
