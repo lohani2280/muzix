@@ -1,6 +1,8 @@
 package com.stackroute.muzix.service;
 
 import com.stackroute.muzix.domain.Track;
+import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
+import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,15 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track saveTrack(Track track) {
-        Track savedTrack = trackRepository.save(track);
-        return savedTrack;
+    public Track saveTrack(Track track) throws TrackAlreadyExistsException {
+        if (trackRepository.existsById(track.getTrackID())) {
+            throw new TrackAlreadyExistsException("Track already exists");
+        }
+        Track trackOne = trackRepository.save(track);
+        if (trackOne == null) {
+            throw new TrackAlreadyExistsException("Track already exists");
+        }
+        return trackOne;
     }
 
     @Override
@@ -28,11 +36,16 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track updateTrack(int id, String comment) {
-        Track trackOne = trackRepository.findById(id).get();
-        trackOne.setComments(comment);
-        trackRepository.save(trackOne);
-        return trackOne;
+    public Track updateTrack(int id, String comment) throws TrackNotFoundException {
+        if (trackRepository.existsById(id)){
+            Track trackOne = trackRepository.findById(id).get();
+            trackOne.setComments(comment);
+            trackRepository.save(trackOne);
+            return trackOne;
+        }
+        else {
+            throw new TrackNotFoundException("Track not found exception");
+        }
     }
 
     @Override

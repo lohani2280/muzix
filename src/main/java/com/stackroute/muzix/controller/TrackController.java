@@ -1,6 +1,8 @@
 package com.stackroute.muzix.controller;
 
 import com.stackroute.muzix.domain.Track;
+import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
+import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.service.TrackService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,14 @@ public class TrackController {
 
     @ApiOperation(value = "Saves track in database")
     @RequestMapping(value = "/track", method = RequestMethod.POST)
-    public ResponseEntity<?> saveTrack(@RequestBody Track track) {
+    public ResponseEntity<?> saveTrack(@RequestBody Track track) throws TrackAlreadyExistsException{
         ResponseEntity responseEntity;
         try {
             trackService.saveTrack(track);
             responseEntity = new ResponseEntity<>(trackService.getAllTracks(), HttpStatus.CREATED);
-        } catch (Exception ex) {
+        } catch (TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
+            ex.printStackTrace();
         }
         return responseEntity;
     }
@@ -46,7 +49,7 @@ public class TrackController {
         try {
             trackService.updateTrack(id, comment);
             responseEntity = new ResponseEntity<String>("Updated Successfully", HttpStatus.CREATED);
-        } catch (Exception ex) {
+        } catch (TrackNotFoundException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
