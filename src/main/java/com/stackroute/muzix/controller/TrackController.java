@@ -6,6 +6,7 @@ import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.service.TrackService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/api/v1")
 public class TrackController {
+    @Qualifier("trackServiceDummyImpl")
+    @Autowired
     TrackService trackService;
 
-    @Autowired
-    public TrackController(TrackService trackService) {
+    public TrackController( TrackService trackService) {
         this.trackService = trackService;
     }
 
