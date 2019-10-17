@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @PropertySources({
-        @PropertySource(value = "classpath:application-dev.properties"),
+        @PropertySource(value = "classpath:application-mongo.properties"),
         // @PropertySource(value = "classpath:application.properties")
 })
 @RestController
