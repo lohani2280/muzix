@@ -6,12 +6,14 @@ import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Primary
+@Profile("notdummy")
+
 public class TrackServiceImpl implements TrackService {
     TrackRepository trackRepository;
 

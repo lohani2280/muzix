@@ -5,14 +5,13 @@ import com.stackroute.muzix.exceptions.TrackAlreadyExistsException;
 import com.stackroute.muzix.exceptions.TrackNotFoundException;
 import com.stackroute.muzix.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-//@Profile("dummy")
-// mvn clean
-// mvn spring-boot:run -Dspring.profiles.active=dummy
+@Profile("dummy")
 
 public class TrackServiceDummyImpl implements TrackService {
     TrackRepository trackRepository;

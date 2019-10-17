@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/api/v1")
 public class TrackController {
-    @Qualifier("trackServiceDummyImpl")
+//    @Qualifier("trackServiceDummyImpl")
     @Autowired
     TrackService trackService;
 
